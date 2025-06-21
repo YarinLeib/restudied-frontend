@@ -1,34 +1,17 @@
-import { Button, Card, CardContent, Typography, Container, Alert } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export function HomePage() {
   return (
-    <div className='bg-gradient-to-br from-yellow-200 to-yellow-400 min-h-screen flex items-center justify-center'>
-      <Container maxWidth='sm'>
-        {/* Tailwind heading */}
-        <h1 className='text-4xl font-bold text-center text-blue-800 mb-6'>Tailwind + MUI 🎉</h1>
+    <div className='bg-yellow-300 text-blue-700 p-10 text-center min-h-screen'>
+      <h1 className='text-4xl font-bold'>Tailwind is Working 🎉</h1>
+      <p className='text-lg mt-4'>Styled with Tailwind CSS</p>
 
-        {/* MUI Alert */}
-        <Alert severity='info' className='mb-6'>
-          This is an MUI Alert inside a Tailwind layout!
-        </Alert>
-
-        {/* MUI Card */}
-        <Card>
-          <CardContent>
-            <Typography variant='h5' component='div' gutterBottom>
-              This is a Material UI Card
-            </Typography>
-            <Typography color='text.secondary'>It's centered using Tailwind, and styled using MUI props.</Typography>
-
-            {/* MUI Button */}
-            <div className='mt-4 text-center'>
-              <Button variant='contained' color='primary'>
-                MUI Button
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </Container>
+      <Link
+        to='/items'
+        className='mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition'
+      >
+        Go to Item List
+      </Link>
     </div>
   );
 }
