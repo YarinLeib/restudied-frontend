@@ -20,24 +20,27 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <Navbar />
-
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/signup' element={<SignupPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/edit-profile' element={<EditProfilePage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/add-item' element={<AddItemPage />} />
-        <Route path='/edit-item/:id' element={<EditItemPage />} />
-        <Route path='/my-items' element={<MyItemPage />} />
-        <Route path='/items' element={<ItemListPage />} />
-        <Route path='/requests' element={<RequestsPage />} />
-        <Route path='/items/:id' element={<ItemDetailPage />} />
-        <Route path='/messages' element={<MessagesPage />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <div className='app-layout'>
+        <Navbar />
+        <main className='main-content'>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/signup' element={<SignupPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/edit-profile' element={<EditProfilePage />} />
+            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/add-item' element={<AddItemPage />} />
+            <Route path='/edit-item/:id' element={<EditItemPage />} />
+            <Route path='/my-items' element={<MyItemPage />} />
+            <Route path='/items' element={<ItemListPage />} />
+            <Route path='/requests' element={<RequestsPage />} />
+            <Route path='/items/:id' element={<ItemDetailPage />} />
+            <Route path='/messages' element={<MessagesPage />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
