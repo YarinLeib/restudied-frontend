@@ -16,41 +16,31 @@ export function AuthProviderWrapper({ children }) {
 
   const authenticateUser = () => {
     const storedToken = localStorage.getItem('authToken');
-    axios
-      .get(`${API_URL}/auth/verify`, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
-      .then((response) => {
-        console.log('✅ User verified:', response.data);
-        // ...
-      })
-      .catch((err) => {
-        console.error('❌ Token verification failed:', err.response?.data);
-      });
-    if (storedToken) {
-      axios
-        .get(`${API_URL}/auth/verify`, {
-          headers: {
-            Authorization: `Bearer ${storedToken}`,
-          },
-        })
-        .then((response) => {
-          const user = response.data;
-          setIsLoggedIn(true);
-          setIsLoading(false);
-          setUser(user);
-        })
-        .catch((error) => {
-          console.error('Auth error:', error.response?.data || error.message);
-          setIsLoggedIn(false);
-          setIsLoading(false);
-          setUser(null);
-        });
-    } else {
+
+    if (!storedToken) {
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
+      return;
     }
+
+    axios
+      .get(`${API_URL}/auth/verify`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
+      .then((response) => {
+        setIsLoggedIn(true);
+        setIsLoading(false);
+        setUser(response.data.user);
+      })
+      .catch((error) => {
+        console.error('Token verification failed:', error.response?.data || error.message);
+        setIsLoggedIn(false);
+        setIsLoading(false);
+        setUser(null);
+      });
   };
 
   useEffect(() => {
