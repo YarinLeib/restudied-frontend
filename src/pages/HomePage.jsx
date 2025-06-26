@@ -81,7 +81,7 @@ export function HomePage() {
                   py: 3,
                   fontSize: '1rem',
                   color: 'white',
-                  backgroundColor: '#FF5722',
+                  backgroundColor: '#52b202',
                 }}
               >
                 Sign Up
@@ -100,7 +100,7 @@ export function HomePage() {
                 px: 6,
                 py: 6,
                 fontSize: '1.25rem',
-                backgroundColor: '#52b202',
+                backgroundColor: '#ff9819',
                 color: 'white',
               }}
             >

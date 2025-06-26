@@ -1,7 +1,24 @@
+import { useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
+
 export function ProfilePage() {
+  const { user } = useContext(AuthContext);
+
+  console.log('Profile image:', user?.profileImage);
   return (
     <div className='container mx-auto p-4'>
-      <h1 className='text-2xl font-bold mb-4'>Profile Page</h1>
+      <div>
+        <img
+          src={user?.profileImage}
+          alt='Profile'
+          className='w-32 h-32 rounded-full border-2 border-gray-300 shadow-md object-cover'
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/default-profile.png'; // fallback if URL is broken
+          }}
+        />
+      </div>
+      <h1 className='text-2xl font-bold mb-4'>{user?.username}</h1>
       <p className='text-gray-700 mb-2'>This is the profile page.</p>
       <p className='text-gray-500'>You can add more details about the user here.</p>
       <div className='mt-6'>

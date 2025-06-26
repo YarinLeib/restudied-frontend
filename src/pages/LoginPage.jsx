@@ -17,7 +17,10 @@ export function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5005/api/auth/login', formData);
+      const res = await axios.post('http://localhost:5005/api/auth/login', {
+        ...formData,
+        email: formData.email.toLowerCase(),
+      });
       storeToken(res.data.authToken);
       authenticateUser();
       navigate('/');
