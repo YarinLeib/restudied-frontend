@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { AuthContext } from '../context/auth.context';
 
 export function HomePage() {
+  const { isLoggedIn } = useContext(AuthContext);
   return (
     <Box
       sx={{
@@ -47,44 +50,46 @@ export function HomePage() {
         <Box
           display='flex'
           flexDirection={{ xs: 'column', md: 'row' }}
-          gap={15}
-          maxWidth='700px'
+          gap={4}
           width='100%'
+          maxWidth='700px'
           justifyContent='center'
           alignItems='center'
           pb='5vh'
         >
-          <Box display='flex' flexDirection='column' gap={2} width={{ xs: '100%', md: 'auto' }} alignItems='center'>
-            <Button
-              component={Link}
-              to='/login'
-              variant='contained'
-              color='primary'
-              size='large'
-              fullWidth
-              sx={{ px: 6, py: 3, fontSize: '1rem' }}
-            >
-              Login
-            </Button>
-            <Button
-              component={Link}
-              to='/signup'
-              variant='contained'
-              size='large'
-              fullWidth
-              sx={{
-                px: 6,
-                py: 3,
-                fontSize: '1rem',
-                color: 'white',
-                backgroundColor: '#FF5722',
-              }}
-            >
-              Sign Up
-            </Button>
-          </Box>
+          {!isLoggedIn && (
+            <Box display='flex' flexDirection='column' gap={2} width={{ xs: '100%', md: 'auto' }} alignItems='center'>
+              <Button
+                component={Link}
+                to='/login'
+                variant='contained'
+                color='primary'
+                size='large'
+                fullWidth
+                sx={{ px: 6, py: 3, fontSize: '1rem' }}
+              >
+                Login
+              </Button>
+              <Button
+                component={Link}
+                to='/signup'
+                variant='contained'
+                size='large'
+                fullWidth
+                sx={{
+                  px: 6,
+                  py: 3,
+                  fontSize: '1rem',
+                  color: 'white',
+                  backgroundColor: '#FF5722',
+                }}
+              >
+                Sign Up
+              </Button>
+            </Box>
+          )}
 
-          <Box width={{ xs: '100%', md: 'auto' }} textAlign='center'>
+          <Box width={isLoggedIn ? '100%' : { xs: '100%', md: 'auto' }} textAlign='center'>
             <Button
               component={Link}
               to='/items'

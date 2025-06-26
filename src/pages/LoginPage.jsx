@@ -7,6 +7,7 @@ export function LoginPage() {
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -21,13 +22,14 @@ export function LoginPage() {
       authenticateUser();
       navigate('/');
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
+      const msg = err.response?.data?.message || 'Login failed';
+      setErrorMessage(msg);
     }
   };
 
   return (
-    <div className='bg-gradient-to-br from-blue-200 to-blue-400 min-h-screen flex items-center justify-center'>
-      <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-lg'>
+    <div className='bg-gradient-to-br from-blue-300 to-orange-500 min-h-screen flex items-center justify-center'>
+      <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-lg transform -translate-y-10'>
         <h1 className='text-3xl font-bold text-center text-blue-800 mb-6'>Login</h1>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
@@ -63,6 +65,17 @@ export function LoginPage() {
             Login
           </button>
         </form>
+        {errorMessage && (
+          <div className='mt-4 text-red-600 text-center'>
+            <p>{errorMessage}</p>
+          </div>
+        )}
+        <p className='mt-4 text-center text-gray-600'>
+          Don't have an account?{' '}
+          <a href='/signup' className='text-blue-600 hover:underline'>
+            Sign up
+          </a>
+        </p>
       </div>
     </div>
   );
