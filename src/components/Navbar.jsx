@@ -48,9 +48,6 @@ export function Navbar() {
                 <Link to='/messages' className='block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800'>
                   Messages
                 </Link>
-                <Link to='/requests' className='block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800'>
-                  Requests
-                </Link>
               </div>
             </div>
 

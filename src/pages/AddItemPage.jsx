@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/auth.context';
+import { useNavigate } from 'react-router-dom';
 
 export function AddItemPage() {
+  const { isLoggedIn, isLoading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, isLoading, navigate]);
   const [formData, setFormData] = useState({
     title: '',
     itemDescription: '',
@@ -63,7 +74,7 @@ export function AddItemPage() {
         },
       });
 
-      alert('Item added successfully!');
+      navigate('/items');
       console.log(response.data);
     } catch (error) {
       console.error('Error adding item:', error.response?.data || error.message);
@@ -78,7 +89,6 @@ export function AddItemPage() {
         <h1 className='text-3xl font-bold text-center text-blue-800 mb-6'>Add New Item</h1>
 
         <form onSubmit={handleSubmit} className='space-y-4'>
-          {/* Title */}
           <div className='mb-4'>
             <label htmlFor='title' className='block text-gray-700 mb-2'>
               Title
@@ -94,7 +104,6 @@ export function AddItemPage() {
             {errors.title && <p className='text-red-600 text-sm mt-1'>{errors.title}</p>}
           </div>
 
-          {/* Description */}
           <div className='mb-4'>
             <label htmlFor='itemDescription' className='block text-gray-700 mb-2'>
               Description
@@ -109,7 +118,6 @@ export function AddItemPage() {
             {errors.itemDescription && <p className='text-red-600 text-sm mt-1'>{errors.itemDescription}</p>}
           </div>
 
-          {/* Location */}
           <div className='mb-4'>
             <label htmlFor='itemLocation' className='block text-gray-700 mb-2'>
               Location
@@ -125,7 +133,6 @@ export function AddItemPage() {
             {errors.itemLocation && <p className='text-red-600 text-sm mt-1'>{errors.itemLocation}</p>}
           </div>
 
-          {/* Category */}
           <div className='mb-4'>
             <label htmlFor='itemCategory' className='block text-gray-700 mb-2'>
               Category
@@ -147,7 +154,6 @@ export function AddItemPage() {
             {errors.itemCategory && <p className='text-red-600 text-sm mt-1'>{errors.itemCategory}</p>}
           </div>
 
-          {/* Condition */}
           <div className='mb-4'>
             <label htmlFor='itemCondition' className='block text-gray-700 mb-2'>
               Condition
@@ -166,7 +172,6 @@ export function AddItemPage() {
             {errors.itemCondition && <p className='text-red-600 text-sm mt-1'>{errors.itemCondition}</p>}
           </div>
 
-          {/* Language */}
           <div className='mb-4'>
             <label htmlFor='itemLanguage' className='block text-gray-700 mb-2'>
               Language

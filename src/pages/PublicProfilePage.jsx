@@ -1,24 +1,26 @@
-import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/auth.context';
 import { ItemCard } from '../components/ItemCard';
 
-export function ProfilePage() {
-  const { user } = useContext(AuthContext);
+export function PublicProfilePage() {
+  const { userId } = useParams();
+  const [user, setUser] = useState(null);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:5005/api/items/my-items', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      })
-      .then((res) => {
-        setItems(res.data);
-      })
-      .catch((err) => console.error('Failed to fetch items:', err));
-  }, []);
+      .get(`http://localhost:5005/api/users/${userId}`)
+      .then((res) => setUser(res.data))
+      .catch((err) => console.error('User fetch error:', err));
+
+    axios
+      .get(`http://localhost:5005/api/users/${userId}/items`)
+      .then((res) => setItems(res.data))
+      .catch((err) => console.error('Items fetch error:', err));
+  }, [userId]);
+
+  if (!user) return <p className='text-center mt-20'>Loading profile...</p>;
 
   return (
     <div className='bg-gray-100 min-h-screen px-4 pt-8 pb-28 overflow-y-auto'>
@@ -40,7 +42,7 @@ export function ProfilePage() {
           </div>
         </div>
 
-        <h2 className='text-xl font-semibold mb-4'>My Items</h2>
+        <h2 className='text-xl font-semibold mb-4'>Yarin's Items</h2>
 
         {items.length === 0 ? (
           <p className='text-gray-500'>You haven't added any items yet.</p>
