@@ -10,7 +10,7 @@ export function ItemCard({ item }) {
           className='w-full h-48 object-cover rounded-t-lg'
         />
         <h2 className='text-xl font-semibold mt-2'>{item.title || 'Untitled'}</h2>
-        <p className='text-gray-500 mt-2'>{item.itemDescription || 'No description available.'}</p>
+        <p className='text-gray-500 mt-2'>Description: {item.itemDescription || 'No description available.'}</p>
       </div>
     </Link>
   );

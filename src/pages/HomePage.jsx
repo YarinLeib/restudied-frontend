@@ -49,10 +49,9 @@ export function HomePage() {
 
         <Box
           display='flex'
-          flexDirection={{ xs: 'column', md: 'row' }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
           gap={4}
           width='100%'
-          maxWidth='700px'
           justifyContent='center'
           alignItems='center'
           pb='5vh'
@@ -77,7 +76,7 @@ export function HomePage() {
                 size='large'
                 fullWidth
                 sx={{
-                  px: 6,
+                  px: 2,
                   py: 3,
                   fontSize: '1rem',
                   color: 'white',
@@ -89,23 +88,49 @@ export function HomePage() {
             </Box>
           )}
 
-          <Box width={isLoggedIn ? '100%' : { xs: '100%', md: 'auto' }} textAlign='center'>
+          <Box
+            display='flex'
+            flexDirection={{ xs: 'column', sm: 'row' }}
+            gap={4}
+            width='100%'
+            justifyContent='center'
+            alignItems='center'
+          >
             <Button
               component={Link}
               to='/items'
               variant='contained'
               size='large'
-              fullWidth
               sx={{
-                px: 6,
-                py: 6,
-                fontSize: '1.25rem',
+                px: 8,
+                py: 4,
+                fontSize: '1.5rem',
                 backgroundColor: '#ff9819',
                 color: 'white',
+                width: { xs: '100%', sm: 'auto' },
               }}
             >
               Browse Items
             </Button>
+
+            {isLoggedIn && (
+              <Button
+                component={Link}
+                to='/add-items'
+                variant='contained'
+                size='large'
+                sx={{
+                  px: 8,
+                  py: 4,
+                  fontSize: '1.5rem',
+                  color: 'white',
+                  backgroundColor: '#e5e100',
+                  width: { xs: '100%', sm: 'auto' },
+                }}
+              >
+                Add Item
+              </Button>
+            )}
           </Box>
         </Box>
       </Box>

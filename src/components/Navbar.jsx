@@ -30,6 +30,9 @@ export function Navbar() {
     opacity-0 invisible group-hover:opacity-100 group-hover:visible
     transition-all duration-200 z-50'
               >
+                <Link to='/add-item' className='block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800'>
+                  Add Item
+                </Link>
                 <Link to='/profile' className='block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800'>
                   View My Profile
                 </Link>
