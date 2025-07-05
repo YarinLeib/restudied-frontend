@@ -122,7 +122,7 @@ export function HomePage() {
             {isLoggedIn && (
               <Button
                 component={Link}
-                to="/add-items"
+                to="/add-item"
                 variant="contained"
                 size="large"
                 sx={{
