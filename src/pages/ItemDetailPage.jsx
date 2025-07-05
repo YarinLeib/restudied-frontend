@@ -51,6 +51,7 @@ export function ItemDetailPage() {
             Language: {item.itemLanguage}
           </p>
         )}
+
         <p className="mt-4">
           <span className="text-sm text-gray-600">Listed by: </span>
           <a
@@ -61,7 +62,17 @@ export function ItemDetailPage() {
           </a>
         </p>
 
-        {/* ✅ Message form if viewer is not the owner */}
+        {user && user._id === item.owner._id && (
+          <div className="mt-6">
+            <button
+              onClick={() => navigate("/edit-item/" + item._id)}
+              className="mb-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Edit Item
+            </button>
+          </div>
+        )}
+
         {user && user._id !== item.owner._id && (
           <form
             onSubmit={async (e) => {
