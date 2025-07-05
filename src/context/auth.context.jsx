@@ -1,7 +1,7 @@
-import { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
-const API_URL = 'http://localhost:5005/api';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AuthContext = createContext();
 
@@ -10,12 +10,12 @@ export function AuthProviderWrapper({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const storeToken = (token) => localStorage.setItem('authToken', token);
+  const storeToken = (token) => localStorage.setItem("authToken", token);
 
-  const removeToken = () => localStorage.removeItem('authToken');
+  const removeToken = () => localStorage.removeItem("authToken");
 
   const authenticateUser = () => {
-    const storedToken = localStorage.getItem('authToken');
+    const storedToken = localStorage.getItem("authToken");
 
     if (!storedToken) {
       setIsLoggedIn(false);
@@ -36,7 +36,10 @@ export function AuthProviderWrapper({ children }) {
         setUser(response.data.user);
       })
       .catch((error) => {
-        console.error('Token verification failed:', error.response?.data || error.message);
+        console.error(
+          "Token verification failed:",
+          error.response?.data || error.message
+        );
         setIsLoggedIn(false);
         setIsLoading(false);
         setUser(null);
@@ -53,7 +56,16 @@ export function AuthProviderWrapper({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, isLoading, storeToken, authenticateUser, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        user,
+        isLoading,
+        storeToken,
+        authenticateUser,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
