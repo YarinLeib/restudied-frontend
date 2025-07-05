@@ -4,6 +4,8 @@ import { AuthContext } from "../context/auth.context";
 import { ItemCard } from "../components/ItemCard";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function ProfilePage() {
   const { user, isLoggedIn, isLoading } = useContext(AuthContext);
   const [items, setItems] = useState([]);
@@ -18,7 +20,7 @@ export function ProfilePage() {
   useEffect(() => {
     if (!isLoading && isLoggedIn) {
       axios
-        .get("http://localhost:5005/api/items/my-items", {
+        .get(`${API_URL}/items/my-items`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

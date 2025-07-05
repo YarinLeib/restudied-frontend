@@ -4,6 +4,8 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function AddItemPage() {
   const { isLoggedIn, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -71,16 +73,12 @@ export function AddItemPage() {
 
       const token = localStorage.getItem("authToken");
 
-      const response = await axios.post(
-        "http://localhost:5005/api/items",
-        formPayload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${API_URL}/items`, formPayload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       navigate("/items");
       console.log(response.data);

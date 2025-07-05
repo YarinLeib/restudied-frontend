@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ItemCard } from "../components/ItemCard";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function ItemListPage() {
   const [items, setItems] = useState([]);
   const [filterText, setFilterText] = useState("");
@@ -10,7 +12,7 @@ export function ItemListPage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5005/api/items")
+      .get(`${API_URL}/items`)
       .then((res) => setItems(res.data))
       .catch((err) => console.error("Error fetching items:", err));
   }, []);

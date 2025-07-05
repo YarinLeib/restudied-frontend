@@ -14,6 +14,8 @@ import {
   Button,
 } from "@mui/material";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function MessagesPage() {
   const { user } = useContext(AuthContext);
   const [conversations, setConversations] = useState([]);
@@ -26,7 +28,7 @@ export function MessagesPage() {
     if (!user?._id) return;
 
     axios
-      .get("http://localhost:5005/api/messages/my", {
+      .get(`${API_URL}/messages/my`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
@@ -69,7 +71,7 @@ export function MessagesPage() {
       const itemId =
         selectedMessages[0]?.itemId?._id || selectedMessages[0]?.itemId;
       const response = await axios.post(
-        "http://localhost:5005/api/messages",
+        `${API_URL}/messages`,
         {
           receiver: selectedUserId,
           content: newMessage,

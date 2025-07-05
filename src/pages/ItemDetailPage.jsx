@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function ItemDetailPage() {
   const { id } = useParams();
   const [item, setItem] = useState(null);
@@ -12,7 +14,7 @@ export function ItemDetailPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5005/api/items/${id}`)
+      .get(`${API_URL}/items/${id}`)
       .then((response) => setItem(response.data))
       .catch((error) => console.error("Error fetching item:", error));
   }, [id]);
@@ -81,7 +83,7 @@ export function ItemDetailPage() {
 
               try {
                 await axios.post(
-                  "http://localhost:5005/api/messages",
+                  `${API_URL}/messages`,
                   {
                     receiver: item.owner._id,
                     content: newMessage,

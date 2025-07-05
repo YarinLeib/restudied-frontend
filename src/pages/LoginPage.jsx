@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function LoginPage() {
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,7 +22,7 @@ export function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5005/api/auth/login", {
+      const res = await axios.post(`${API_URL}/auth/login`, {
         ...formData,
         email: formData.email.toLowerCase(),
       });

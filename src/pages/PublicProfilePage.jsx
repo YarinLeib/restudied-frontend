@@ -5,6 +5,8 @@ import { ItemCard } from "../components/ItemCard";
 import { Rating, Button } from "@mui/material";
 import { AuthContext } from "../context/auth.context";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function PublicProfilePage() {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
@@ -17,19 +19,19 @@ export function PublicProfilePage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5005/api/users/${userId}`)
+      .get(`${API_URL}/users/${userId}`)
       .then((res) => setUser(res.data))
       .catch((err) => console.error("User fetch error:", err));
 
     axios
-      .get(`http://localhost:5005/api/users/${userId}/items`)
+      .get(`${API_URL}/users/${userId}/items`)
       .then((res) => setItems(res.data))
       .catch((err) => console.error("Items fetch error:", err));
   }, [userId]);
 
   useEffect(() => {
     if (userId && loggedInUser) {
-      axios.get(`http://localhost:5005/api/reviews/${userId}`).then((res) => {
+      axios.get(`${API_URL}/reviews/${userId}`).then((res) => {
         const already = res.data.some(
           (r) => r.reviewer._id === loggedInUser._id
         );
@@ -37,7 +39,7 @@ export function PublicProfilePage() {
       });
 
       axios
-        .get(`http://localhost:5005/api/reviews/average/${userId}`)
+        .get(`${API_URL}/reviews/average/${userId}`)
         .then((res) => setAverage(res.data));
     }
   }, [userId, loggedInUser]);
