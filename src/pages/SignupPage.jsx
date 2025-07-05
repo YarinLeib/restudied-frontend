@@ -7,7 +7,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function SignupPage() {
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, setUser, setIsLoggedIn } = useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
 
   const [email, setEmail] = useState("");
@@ -42,9 +42,10 @@ export function SignupPage() {
         return axios.post(`${API_URL}/auth/login`, { email, password });
       })
       .then((res) => {
-        const { authToken } = res.data;
+        const { authToken, user } = res.data;
         storeToken(authToken);
-        authenticateUser();
+        setUser(user);
+        setIsLoggedIn(true);
         navigate("/items");
       })
       .catch((err) => {

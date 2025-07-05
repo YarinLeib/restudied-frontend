@@ -64,6 +64,8 @@ export function AuthProviderWrapper({ children }) {
         storeToken,
         authenticateUser,
         logout,
+        setUser,
+        setIsLoggedIn,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { AuthContext } from "../context/auth.context";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function LoginPage() {
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { storeToken, setUser, setIsLoggedIn } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,8 +26,10 @@ export function LoginPage() {
         ...formData,
         email: formData.email.toLowerCase(),
       });
+
       storeToken(res.data.authToken);
-      authenticateUser();
+      setUser(res.data.user);
+      setIsLoggedIn(true);
       navigate(from);
     } catch (err) {
       const msg = err.response?.data?.message || "Login failed";
