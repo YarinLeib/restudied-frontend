@@ -13,7 +13,7 @@ export function HomePage() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        height: "100vh",
+        flex: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -21,7 +21,6 @@ export function HomePage() {
         px: 2,
         py: 2,
         textAlign: "center",
-        overflow: "hidden",
       }}
     >
       <Box
