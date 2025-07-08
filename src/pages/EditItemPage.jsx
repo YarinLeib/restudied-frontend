@@ -124,6 +124,19 @@ export function EditItemPage() {
     }
   };
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem("authToken");
+    try {
+      await axios.delete(`${API_URL}/items/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate("/items");
+    } catch (error) {
+      console.error("Error deleting item:", error.response?.data || error.message);
+    }
+  };
+
+
   return (
     <div className="bg-gradient-to-br from-green-400 to-blue-400 w-full h-full p-2 flex justify-center items-center">
       <div className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-y-auto max-h-[calc(100vh-100px)] sm:max-h-[90vh]">
@@ -271,6 +284,17 @@ export function EditItemPage() {
           >
             {loading ? "Submitting..." : "Edit Item"}
           </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="w-full bg-red-600 text-white p-2 rounded hover:bg-red
+-700 transition-colors duration-200 mt-4"
+          >
+            Delete Item
+          </button>
+          {errors.general && (
+            <p className="text-red-600 text-sm mt-1">{errors.general}</p>
+          )}
         </form>
       </div>
     </div>
