@@ -7,7 +7,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function EditProfilePage() {
-  const { storeToken, authenticateUser } = useContext(AuthContext);
+  const { authenticateUser, setUser } = useContext(AuthContext);
   const [profileImage, setProfileImage] = useState(null);
 
   const [email, setEmail] = useState("");
@@ -53,20 +53,15 @@ export function EditProfilePage() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then(() => {
-        return axios.post(`${API_URL}/auth/login`, {
-          email,
-          password: currentPassword,
-        });
-      })
-      .then((res) => {
-        const { authToken } = res.data;
-        storeToken(authToken);
-        authenticateUser();
+      .then((response) => {
+        console.log("Profile update response:", response.data);
+        
+        setUser(response.data);
+        authenticateUser(); 
         navigate("/profile");
       })
       .catch((err) => {
-        const msg = err.response?.data?.message || "Signup/Login failed";
+        const msg = err.response?.data?.message || "Profile update failed";
         setErrorMessage(msg);
       });
   };

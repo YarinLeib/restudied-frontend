@@ -34,6 +34,8 @@ export function ProfilePage() {
 
   if (isLoading) return <p>Loading...</p>;
 
+  console.log("User profile image URL:", user?.profileImage);
+
   return (
     <div className="bg-gray-100 min-h-screen px-4 pt-8 pb-28 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
