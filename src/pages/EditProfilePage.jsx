@@ -57,7 +57,8 @@ export function EditProfilePage() {
         console.log("Profile update response:", response.data);
         
         setUser(response.data);
-        authenticateUser(); 
+        
+        authenticateUser();
         navigate("/profile");
       })
       .catch((err) => {
@@ -161,6 +162,7 @@ export function EditProfilePage() {
                   src={user.profileImage}
                   alt="Current profile"
                   className="w-24 h-24 object-cover rounded-full border mx-auto"
+                  key={user.profileImage} // Force re-render when URL changes
                 />
                 <p className="text-center text-sm text-gray-600 mt-1">
                   Current Image

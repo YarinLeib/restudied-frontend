@@ -44,6 +44,7 @@ export function ProfilePage() {
             src={user?.profileImage || "/default-profile.png"}
             alt="Profile"
             className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-md object-cover"
+            key={user?.profileImage} 
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/default-profile.png";
