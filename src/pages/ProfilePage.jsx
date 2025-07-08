@@ -7,15 +7,32 @@ import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function ProfilePage() {
-  const { user, isLoggedIn, isLoading } = useContext(AuthContext);
+  const { isLoggedIn, isLoading } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!isLoading && !isLoggedIn) {
       navigate("/");
     }
   }, [isLoggedIn, isLoading, navigate]);
+
+
+  useEffect(() => {
+    if (!isLoading && isLoggedIn) {
+      axios
+        .get(`${API_URL}/auth/profile`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        })
+        .then((res) => setUser(res.data))
+        .catch((err) => console.error("Failed to fetch profile:", err));
+    }
+  }, [isLoading, isLoggedIn]);
+
 
   useEffect(() => {
     if (!isLoading && isLoggedIn) {
@@ -25,35 +42,30 @@ export function ProfilePage() {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         })
-        .then((res) => {
-          setItems(res.data);
-        })
+        .then((res) => setItems(res.data))
         .catch((err) => console.error("Failed to fetch items:", err));
     }
   }, [isLoading, isLoggedIn]);
 
-  if (isLoading) return <p>Loading...</p>;
-
-  console.log("User profile image URL:", user?.profileImage);
+  if (isLoading || !user) return <p className="text-center mt-10">Loading...</p>;
 
   return (
     <div className="bg-gray-100 min-h-screen px-4 pt-8 pb-28 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center gap-6 mb-6">
           <img
-            src={user?.profileImage || "/default-profile.png"}
+            src={user.profileImage || "/default-profile.png"}
             alt="Profile"
             className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-md object-cover"
-            key={user?.profileImage} 
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/default-profile.png";
             }}
           />
           <div>
-            <h1 className="text-2xl font-bold">{user?.username}</h1>
-            <p className="text-gray-600">{user?.name}</p>
-            <p className="text-gray-600">{user?.email}</p>
+            <h1 className="text-2xl font-bold">{user.username}</h1>
+            <p className="text-gray-600">{user.name}</p>
+            <p className="text-gray-600">{user.email}</p>
           </div>
         </div>
 

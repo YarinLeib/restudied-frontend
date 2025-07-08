@@ -46,6 +46,8 @@ export function PublicProfilePage() {
 
   if (!user) return <p className="text-center mt-20">Loading profile...</p>;
 
+  
+
   return (
     <div className="bg-gray-100 min-h-screen px-4 pt-8 pb-28 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
