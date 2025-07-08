@@ -8,6 +8,14 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+  -webkit-fill-available: 100%;
+}
+
+
+@supports (-webkit-touch-callout: none) {
+  .app-layout {
+    height: -webkit-fill-available;
+  }
 }
 
 .app-layout {
@@ -15,6 +23,7 @@ body,
   flex-direction: column;
   height: 100vh;
   height: 100dvh; 
+ height: -webkit-fill-available;
   overflow: hidden;
 }
 
