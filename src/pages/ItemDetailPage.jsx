@@ -26,13 +26,14 @@ export function ItemDetailPage() {
   }
 
   return (
-    <div className="mt-10 p-6 max-w-xl">
-      <button
-        onClick={() => navigate("/items")}
-        className="mb-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        ← Back to Items
-      </button>
+    <div className="bg-gray-100 flex-1 p-4 overflow-y-auto">
+      <div className="max-w-xl mx-auto">
+        <button
+          onClick={() => navigate("/items")}
+          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          ← Back to Items
+        </button>
 
       <div className="bg-white rounded shadow p-6">
         <img
@@ -114,13 +115,14 @@ export function ItemDetailPage() {
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-4"
             >
               Send
             </button>
           </form>
         )}
       </div>
+    </div>
     </div>
   );
 }
