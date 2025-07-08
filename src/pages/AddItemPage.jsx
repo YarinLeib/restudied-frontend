@@ -93,8 +93,8 @@ export function AddItemPage() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-red-400 to-yellow-400 w-full h-full p-2 flex justify-center items-center">
-      <div className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-lg overflow-y-auto max-h-[calc(100vh-100px)] sm:max-h-[90vh]">
+    <div className="bg-gradient-to-br from-red-400 to-yellow-400 flex-1 p-4 overflow-y-auto">
+      <div className="w-full max-w-md mx-auto bg-white p-4 sm:p-6 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
           Add New Item
         </h1>
@@ -235,7 +235,7 @@ export function AddItemPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50"
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 mb-4"
           >
             {loading ? "Submitting..." : "Add Item"}
           </button>

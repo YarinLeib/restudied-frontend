@@ -66,8 +66,8 @@ export function EditProfilePage() {
       });
   };
   return (
-    <div className="bg-gradient-to-br from-blue-400 to-green-400 min-h-screen flex items-center justify-center">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg transform -translate-y-16">
+    <div className="bg-gradient-to-br from-blue-400 to-green-400 flex-1 p-4 overflow-y-auto">
+      <div className="max-w-md w-full mx-auto bg-white p-6 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center text-green-800 mb-6">
           Edit Profile
         </h1>
@@ -170,7 +170,7 @@ export function EditProfilePage() {
           </div>
           <button
             type="submit"
-            className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition-colors duration-200"
+            className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 transition-colors duration-200 mb-4"
           >
             Save Changes
           </button>
