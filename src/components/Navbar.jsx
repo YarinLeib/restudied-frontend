@@ -54,6 +54,14 @@ export function Navbar() {
                 >
                   Messages
                 </Link>
+                {user?.isAdmin && (
+                  <Link
+                    to="/reported"
+                    className="block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
+                  >
+                    Reported Items
+                  </Link>
+                )}
               </div>
             </div>
 
