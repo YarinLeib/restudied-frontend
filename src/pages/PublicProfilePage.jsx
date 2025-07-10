@@ -13,9 +13,13 @@ export function PublicProfilePage() {
   const [items, setItems] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [alreadyReviewed, setAlreadyReviewed] = useState(false);
-
   const [average, setAverage] = useState(null);
   const { user: loggedInUser } = useContext(AuthContext);
+
+  const [reportData, setReportData] = useState({
+    reason: "",
+    message: "",
+  });
 
   useEffect(() => {
     axios
@@ -44,9 +48,56 @@ export function PublicProfilePage() {
     }
   }, [userId, loggedInUser]);
 
-  if (!user) return <p className="text-center mt-20">Loading profile...</p>;
+  const handleSubmitRating = async () => {
+    try {
+      await axios.post(
+        `${API_URL}/reviews`,
+        {
+          reviewee: userId,
+          rating: newRating,
+          comment: "No comment",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      setAlreadyReviewed(true);
+      setNewRating(0);
+      const [avg] = await Promise.all([
+        axios.get(`${API_URL}/reviews/${userId}`),
+        axios.get(`${API_URL}/reviews/average/${userId}`),
+      ]);
+      setAverage(avg.data);
+    } catch (err) {
+      alert(err.response?.data?.message || "Could not submit rating.");
+    }
+  };
 
-  
+  const handleReportUser = async () => {
+    try {
+      await axios.post(
+        `${API_URL}/reports`,
+        {
+          reportedUser: userId,
+          reason: reportData.reason,
+          message: reportData.message || "",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+      alert("Reported successfully");
+      setReportData({ reason: "", message: "" });
+    } catch (err) {
+      alert(err.response?.data?.message || "Report failed.");
+    }
+  };
+
+  if (!user) return <p className="text-center mt-20">Loading profile...</p>;
 
   return (
     <div className="bg-gray-100 min-h-screen px-4 pt-8 pb-28 overflow-y-auto">
@@ -67,74 +118,92 @@ export function PublicProfilePage() {
             <p className="text-gray-600">{user?.email}</p>
           </div>
         </div>
-        {loggedInUser && loggedInUser._id !== userId && !alreadyReviewed && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-1">Rate this user:</h3>
 
-            <Rating
-              value={newRating}
-              onChange={(event, value) => setNewRating(value)}
-            />
-
-            <Button
-              className="mt-2"
-              variant="contained"
-              disabled={!newRating}
-              onClick={async () => {
-                try {
-                  await axios.post(
-                    "http://localhost:5005/api/reviews",
-                    {
-                      reviewee: userId,
-                      rating: newRating,
-                      comment: "No comment",
-                    },
-                    {
-                      headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                          "authToken"
-                        )}`,
-                      },
-                    }
-                  );
-                  setAlreadyReviewed(true);
-                  setNewRating(0);
-                  const [avg] = await Promise.all([
-                    axios.get(`http://localhost:5005/api/reviews/${userId}`),
-                    axios.get(
-                      `http://localhost:5005/api/reviews/average/${userId}`
-                    ),
-                  ]);
-
-                  setAverage(avg.data);
-                } catch (err) {
-                  alert(
-                    err.response?.data?.message || "Could not submit rating."
-                  );
-                }
-              }}
-            >
-              Submit
-            </Button>
-          </div>
-        )}
         {average && (
-          <div className="mt-2">
-            {average.avgRating !== undefined ? (
-              <p className="text-sm text-gray-600">
-                Average Rating: {average.avgRating.toFixed(1)} ★ (
-                {average.count} reviews)
-              </p>
-            ) : (
-              <p className="text-sm text-gray-400 italic">No reviews yet.</p>
-            )}
+          <div className="mb-4 text-sm text-gray-700">
+            Average Rating: {average.avgRating?.toFixed(1) || "N/A"} ★ (
+            {average.count || 0} reviews)
           </div>
         )}
 
-        <h2 className="text-xl font-semibold mb-4">{user?.name}'s Items</h2>
+        {loggedInUser && loggedInUser._id !== userId && (
+          <div className="mt-4 flex flex-col sm:flex-row gap-6 items-start">
+            {!alreadyReviewed && (
+              <div>
+                <h3 className="text-lg font-semibold mb-1">Rate this user:</h3>
+                <Rating
+                  value={newRating}
+                  onChange={(event, value) => setNewRating(value)}
+                />
+                <Button
+                  className="mt-2"
+                  variant="contained"
+                  size="small"
+                  disabled={!newRating}
+                  onClick={handleSubmitRating}
+                >
+                  Submit
+                </Button>
+              </div>
+            )}
+
+            <div>
+              <h3 className="text-sm font-semibold text-red-700 mb-1">
+                Report
+              </h3>
+              <select
+                className="border border-gray-300 rounded p-1 text-sm"
+                value={reportData.reason}
+                onChange={(e) =>
+                  setReportData((prev) => ({
+                    ...prev,
+                    reason: e.target.value,
+                    message: "", // reset message if reason changes
+                  }))
+                }
+              >
+                <option value="">Select</option>
+                <option value="Inappropriate Content">Inappropriate</option>
+                <option value="Spam">Spam</option>
+                <option value="Harassment">Harassment</option>
+                <option value="Other">Other</option>
+              </select>
+
+              {reportData.reason === "Other" && (
+                <textarea
+                  placeholder="Optional comment"
+                  className="mt-2 p-1 border border-gray-300 rounded text-sm w-full"
+                  rows={2}
+                  value={reportData.message}
+                  onChange={(e) =>
+                    setReportData((prev) => ({
+                      ...prev,
+                      message: e.target.value,
+                    }))
+                  }
+                />
+              )}
+
+              <Button
+                className="mt-2"
+                variant="outlined"
+                color="error"
+                size="small"
+                disabled={!reportData.reason}
+                onClick={handleReportUser}
+              >
+                Report
+              </Button>
+            </div>
+          </div>
+        )}
+
+        <h2 className="text-xl font-semibold mt-10 mb-4">
+          {user?.name}'s Items
+        </h2>
 
         {items.length === 0 ? (
-          <p className="text-gray-500">You haven't added any items yet.</p>
+          <p className="text-gray-500">This user hasn't added any items yet.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {items.map((item) => (
