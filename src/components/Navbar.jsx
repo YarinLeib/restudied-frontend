@@ -4,7 +4,7 @@ import { AuthContext } from "../context/auth.context";
 
 export function Navbar() {
   const { isLoggedIn, user, logout, isLoading } = useContext(AuthContext);
-
+  console.log("user in Navbar:", user);
   if (isLoading) return null;
 
   return (
@@ -59,7 +59,7 @@ export function Navbar() {
                     to="/reported"
                     className="block px-4 py-2 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
                   >
-                    Reported Items
+                    Reported Users
                   </Link>
                 )}
               </div>
